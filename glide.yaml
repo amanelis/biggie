@@ -1,0 +1,6 @@
+package: github.com/cybricio/sonarqube-orchestrator
+import:
+- package: github.com/go-restit/lzjson
+- package: github.com/shopify/sarama
+- package: github.com/preichenberger/go-coinbase-exchange
+- package: github.com/gorilla/websocket

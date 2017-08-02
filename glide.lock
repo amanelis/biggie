@@ -1,0 +1,12 @@
+hash: b23710d85455fdac281d0e4faf0939a1f790fe2b80dc5f1abfbe26f877cff7e2
+updated: 2017-07-23T11:49:51.291565736-06:00
+imports:
+- name: github.com/go-restit/lzjson
+  version: efe3c53acc682f0a1f43cecd3e3e0d535af3e73e
+- name: github.com/gorilla/websocket
+  version: a69d9f6de432e2c6b296a947d8a5ee88f68522cf
+- name: github.com/preichenberger/go-coinbase-exchange
+  version: 4b69b963c441ce67039b2e268c3bc34c126a3a2c
+- name: github.com/shopify/sarama
+  version: 0fb560e5f7fbcaee2f75e3c34174320709f69944
+testImports: []
