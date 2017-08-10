@@ -2,6 +2,7 @@ package model
 
 import (
 	"fmt"
+	"reflect"
 	"strconv"
 )
 
@@ -12,13 +13,16 @@ type Order struct {
 	ClientOID string
 }
 
-func ParseOrder(parts []string) *Order {
-	price, _ := strconv.ParseFloat(parts[0], 64)
-	size, _ := strconv.ParseFloat(parts[1], 64)
+func ParseOrder(parts []interface{}) *Order {
+	val := reflect.ValueOf(parts)
+
+	p, _ := strconv.ParseFloat(val.Index(0).Elem().String(), 64)
+	s, _ := strconv.ParseFloat(val.Index(1).Elem().String(), 64)
+
 	return &Order{
-		Price: price,
-		Size:  size,
-		Id:    parts[2],
+		Price: p,
+		Size:  s,
+		Id:    val.Index(2).Elem().String(),
 	}
 }
 

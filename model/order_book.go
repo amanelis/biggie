@@ -8,22 +8,24 @@ import (
 )
 
 type OrderBook struct {
-	Sequence int64      `json:"sequence"`
-	Bids     [][]string `json:"bids"`
-	Asks     [][]string `json:"asks"`
+	Sequence int64           `json:"sequence"`
+	Bids     [][]interface{} `json:"bids"`
+	Asks     [][]interface{} `json:"asks"`
 }
 
-func (ob *OrderBook) BidOrders() []*Order {
-	orders := make([]*Order, len(ob.Bids))
-	for i, s := range ob.Bids {
+func (ob *OrderBook) AskOrders() []*Order {
+	orders := make([]*Order, len(ob.Asks))
+
+	for i, s := range ob.Asks {
 		orders[i] = ParseOrder(s)
 	}
 	return orders
 }
 
-func (ob *OrderBook) AskOrders() []*Order {
-	orders := make([]*Order, len(ob.Asks))
-	for i, s := range ob.Asks {
+func (ob *OrderBook) BidOrders() []*Order {
+	orders := make([]*Order, len(ob.Bids))
+
+	for i, s := range ob.Bids {
 		orders[i] = ParseOrder(s)
 	}
 	return orders
@@ -44,5 +46,6 @@ func DownloadOrderBook(p string, l string) (*OrderBook, error) {
 
 	ob := OrderBook{}
 	json.Unmarshal(data, &ob)
+
 	return &ob, nil
 }
