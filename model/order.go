@@ -7,10 +7,9 @@ import (
 )
 
 type Order struct {
-	Price     float64
-	Size      float64
-	Id        string
-	ClientOID string
+	Price float64
+	Size  float64
+	Id    string
 }
 
 func ParseOrder(parts []interface{}) *Order {
