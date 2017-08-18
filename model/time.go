@@ -13,7 +13,7 @@ type Time struct {
 
 func GetTime() (*Time, error) {
 	client := &http.Client{}
-	req, _ := http.NewRequest("GET", "http://api.exchange.coinbase.com/time", nil)
+	req, _ := http.NewRequest("GET", "https://api.gdax.com/time", nil)
 	resp, err := client.Do(req)
 	if err != nil {
 		return nil, err

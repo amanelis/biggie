@@ -4,3 +4,5 @@ import:
 - package: github.com/shopify/sarama
 - package: github.com/preichenberger/go-coinbase-exchange
 - package: github.com/gorilla/websocket
+- package: github.com/sirupsen/logrus
+- package: github.com/gosuri/uilive

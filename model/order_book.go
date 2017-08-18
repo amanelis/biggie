@@ -31,7 +31,7 @@ func (ob *OrderBook) BidOrders() []*Order {
 	return orders
 }
 
-func DownloadOrderBook(p string, l string) (*OrderBook, error) {
+func SyncOrderBook(p string, l string) (*OrderBook, error) {
 	resp, err := http.Get(fmt.Sprintf("https://api.gdax.com/products/%s/book?level=%s", p, l))
 
 	if err != nil {

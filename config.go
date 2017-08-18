@@ -1,6 +1,7 @@
 package main
 
 import (
+	"errors"
 	"os"
 
 	"github.com/spf13/viper"
@@ -8,12 +9,31 @@ import (
 
 // Constants for Environment variables
 const (
-	Environment    = "SKYNET__ENVIRONMENT"
-	CoinbaseKey    = "SKYNET__COINBASE_KEY"
-	CoinbaseSecret = "SKYNET__COINBASE_SECRET"
-	CoinbasePhrase = "SKYNET__COINBASE_PHRASE"
-	PidPath        = "SKYNET__PIDPATH"
-	PidFile        = "SKYNET__PIDFILE"
+	Name = "skynet"
+	Env  = "env"
+
+	Environment    = "environment"
+	EnvironmentVar = "SKYNET__ENVIRONMENT"
+
+	CoinbaseKey    = "coinbase_key"
+	CoinbaseKeyVar = "SKYNET__COINBASE_KEY"
+
+	CoinbaseSecret    = "coinbase_secret"
+	CoinbaseSecretVar = "SKYNET__COINBASE_SECRET"
+
+	CoinbasePhrase    = "coinbase_phrase"
+	CoinbasePhraseVar = "SKYNET__COINBASE_PHRASE"
+
+	PidFull = "pidfull"
+
+	PidFile    = "pidfile"
+	PidFileVar = "SKYNET__PIDFILE"
+
+	PidPath    = "pidpath"
+	PidPathVar = "SKYNET__PIDPATH"
+
+	Local      = "local"
+	Production = "production"
 )
 
 // ConfigReader represents configuration reader
@@ -38,12 +58,12 @@ func ConfigDefaults(config ConfigReader) {
 
 // Defaults is the default settings functor
 func Defaults(config ConfigReader) {
-	config.SetDefault("environment", GetEnv(Environment, "local"))
-	config.SetDefault("coinbase_key", GetEnv(CoinbaseKey, ""))
-	config.SetDefault("coinbase_secret", GetEnv(CoinbaseSecret, ""))
-	config.SetDefault("coinbase_phrase", GetEnv(CoinbasePhrase, ""))
-	config.SetDefault("pidfile", GetEnv(PidFile, "skynet.pid"))
-	config.SetDefault("pidpath", GetEnv(PidPath, "/var/run/skynet"))
+	config.SetDefault(Environment, GetEnv(EnvironmentVar, Local))
+	config.SetDefault(CoinbaseKey, GetEnv(CoinbaseKeyVar, ""))
+	config.SetDefault(CoinbaseSecret, GetEnv(CoinbaseSecretVar, ""))
+	config.SetDefault(CoinbasePhrase, GetEnv(CoinbasePhraseVar, ""))
+	config.SetDefault(PidFile, GetEnv(PidFileVar, "skynet.pid"))
+	config.SetDefault(PidPath, GetEnv(PidPathVar, "/var/run/skynet"))
 }
 
 // GetEnv - pull values or set defaults.
@@ -58,10 +78,18 @@ func GetEnv(key, fallback string) string {
 }
 
 // LoadConfig - returns configuration for a particular app
-func LoadConfig(defaultSetup DefaultSettings) ConfigReader {
+func LoadConfig(defaultSetup DefaultSettings) (ConfigReader, error) {
 	config := viper.New()
 
 	Defaults(config)
 
-	return config
+	var e error
+
+	if config.GetString(CoinbaseSecret) == "" || config.GetString(CoinbaseKey) == "" || config.GetString(CoinbasePhrase) == "" {
+		e = errors.New("missing or invalid CoinbaseSecret/CoinbaseKey/CoinbasePhrase")
+	} else {
+		e = nil
+	}
+
+	return config, e
 }
