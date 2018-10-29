@@ -1,4 +1,4 @@
-package: github.com/cybricio/sonarqube-orchestrator
+package: github.com/amanelis/skynet
 import:
 - package: github.com/go-restit/lzjson
 - package: github.com/shopify/sarama
